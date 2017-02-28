@@ -1,5 +1,6 @@
 
 var parseSelector = require('parse-sel')
+var encodeHTML = require('entities').encode
 var VOID_ELEMENTS = require('./elements').VOID
 var CONTAINER_ELEMENTS = require('./elements').CONTAINER
 
@@ -26,7 +27,7 @@ module.exports = function init (modules) {
 
   return function renderToString (vnode) {
     if (!vnode.sel && vnode.text) {
-      return vnode.text
+      return encodeHTML(vnode.text)
     }
 
     vnode.data = vnode.data || {}
@@ -64,7 +65,7 @@ module.exports = function init (modules) {
       if (vnode.data.props && vnode.data.props.innerHTML) {
         tag.push(vnode.data.props.innerHTML)
       } else if (vnode.text) {
-        tag.push(vnode.text)
+        tag.push(encodeHTML(vnode.text))
       } else if (vnode.children) {
         vnode.children.forEach(function (child) {
           tag.push(renderToString(child))

@@ -40,6 +40,12 @@ test('No modules', function (t) {
   vnode = h('!', 'comment text')
   t.equal(renderToString(vnode), '<!--comment text-->', 'comment')
 
+  vnode = h('div', '<\u00A0')
+  t.equal(renderToString(vnode), '<div>&lt;&#xA0;</div>', 'tag with entities')
+
+  vnode = h('div', ['<\u00A0'])
+  t.equal(renderToString(vnode), '<div>&lt;&#xA0;</div>', 'tag with entities as children')
+
   t.end()
 })
 
